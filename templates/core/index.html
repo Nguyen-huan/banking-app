@@ -1,5 +1,5 @@
 {% if request.user.is_authenticated %}
-    <h4>Hello, {{request.username | title}}</h4>
+    <h4>Hello, {{request.user.username | title}}</h4>
     <a href="{% url "userauths:sign-out" %}">Logout</a>
 {% else %}
     <a href="{% url "userauths:sign-in" %}">Sign-in</a>
