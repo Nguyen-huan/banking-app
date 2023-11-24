@@ -41,9 +41,9 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     account_number = ShortUUIDField(unique=True ,length=10, max_length=25, prefix="217", alphabet="1234567890")
-    account_id = ShortUUIDField(unique=True ,length=7, max_length=25, prefix="DEX", alphabet="1234567890")
+    account_id = ShortUUIDField(unique=True ,length=7, max_length=25, prefix="DEX", alphabet="1234567890") # Sử dụng trong các giao dịch 
     pin_number = ShortUUIDField(unique=True ,length=4, max_length=7, alphabet="1234567890")
-    red_code = ShortUUIDField(unique=True ,length=10, max_length=10, alphabet="abcdefgh1234567890")
+    red_code = ShortUUIDField(unique=True ,length=10, max_length=10, alphabet="abcdefgh1234567890") #Mã này có thể được sử dụng trong các quy trình xác thực, chẳng hạn như khi xác nhận một giao dịch quan trọng hoặc khi thực hiện các thao tác quan trọng liên quan đến tài khoản.
     account_status = models.CharField(max_length=100 ,choices=ACCOUNT_STATUS, default="in-active")
     date = models.DateTimeField(auto_now_add=True)
     kyc_submitted = models.BooleanField(default=False)
