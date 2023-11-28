@@ -3,5 +3,7 @@ from . import views
 
 app_name="account"
 urlpatterns = [
-    path('kyc-reg/', views.kyc_regisration, name="kyc-reg")
+    path('dashboard/', views.dashboard, name="dashboard"),
+    path('', views.account, name="account"),
+    path('kyc-reg/', views.kyc_regisration, name="kyc-reg"),
 ]

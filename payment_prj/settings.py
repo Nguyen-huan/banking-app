@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'import_export',
-
 
     # My Apps
     'core',
@@ -164,6 +164,8 @@ JAZZMIN_SETTINGS = {
     "order_with_respect_to": ["core", 'userauths', "transactions", 'addon', 'blog']
 }
  
+LOGIN_URL = "userauths:sign-in"
+LOGOUT_REDIRECT_URL = "userauths:sign-in"
  
  
 # JAZZMIN_UI_TWEAKS = {

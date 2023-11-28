@@ -14,10 +14,10 @@ def register_view(request ,*args,  **kwargs):
             messages.success(request, f"Hey {username}, your account was created successfully")
             new_user = authenticate(username=form.cleaned_data["email"], password=form.cleaned_data["password1"])
             login(request, new_user)
-            return redirect("core:index")
+            return redirect("account:account")
     elif request.user.is_authenticated:
         messages.warning(request, "You are adreadly logged in!")
-        return redirect("core:index")
+        return redirect("account:account")
     context = {
         'form': form
     }
@@ -33,13 +33,16 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "You are logged in.")
-                return redirect("core:index")
+                return redirect("account:account")
             else:
                 messages.warning(request, "Username or password is not exist.")
                 return redirect("userauths:sign-in")
         except:
              messages.warning(request, "User does not exist.")
-            
+
+    if request.user.is_authenticated:
+        messages.warning(request, "You already logged in!")
+        return redirect("account:account")
     return render(request, "userauths/sign-in.html")
 
 def logout_view(request):

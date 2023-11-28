@@ -127,28 +127,40 @@
                             <div class="single-item user-area">
                                 <div class="profile-area d-flex align-items-center">
                                     <span class="user-profile">
-                                        <img src="{% static 'assets1/images/avatar.png' %}" alt="User">
+                                        <img 
+                                            style="width:40px; height: 40px; border-radius:100px; object-fit:cover"
+                                            src="{{request.user.kyc.image.url}}" alt="User image">
                                     </span>
                                     <i class="fa-solid fa-sort-down"></i>
                                 </div>
                                 <div class="main-area user-content">
                                     <div class="head-area d-flex align-items-center">
                                         <div class="profile-img">
-                                            <img src="{% static 'assets1/images/avatar-2.png' %}" alt="User">
+                                            <img 
+                                            style="width:60px; height: 60px; border-radius:100px; object-fit:cover"
+                                            src="{{request.user.kyc.image.url}}" alt="User image">
                                         </div>
                                         <div class="profile-head">
-                                            <a href="javascript:void(0)">
-                                                <h5>Kevin Martin</h5>
+                                            <a href="{% url "account:account" %}">
+                                                <h5>{{request.user.kyc.full_name}}</h5>
                                             </a>
-                                            <p class="wallet-id">Wallet ID: 6264849965</p>
+                                            <p class="wallet-id">Account No: <small>{{request.user.account.account_number}}</small></p>
+                                            <p class="wallet-id">
+                                                <small>
+                                                    Pin No: {{request.user.account.pin_number}}
+                                                </small>
+                                            </p>
                                         </div>
                                     </div>
                                     <ul>
                                         <li class="border-area">
-                                            <a href="account.html"><i class="fas fa-cog"></i>Settings</a>
+                                            <a href="/admin"><i class="fas fa-user"></i>Admin</a>
+                                        </li>
+                                        <li class="border-area">
+                                            <a href="{% url "account:account" %}"><i class="fas fa-cog"></i>Settings</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)"><i class="fas fa-sign-out"></i>Logout</a>
+                                            <a href="{% url "userauths:sign-out" %}"><i class="fas fa-sign-out"></i>Logout</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -160,21 +172,21 @@
                             <i class="fa-solid fa-xmark"></i>
                         </div>
                         <div class="sidebar-logo">
-                            <a href="dashboard.html"><img src="{% static 'assets1/images/logo.png' %}" alt="logo"></a>
+                            <a href="{% url "account:dashboard" %}"><img src="{% static 'assets1/images/logo.png' %}" alt="logo"></a>
                         </div>
                         <ul>
                             <li>
-                                <a href="dashboard.html">
+                                <a href="{% url "account:dashboard" %}">
                                     <img src="{% static 'assets1/images/icon/dashboard.png' %}" alt="Dashboard"> <span>Dashboard</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="transactions.html">
+                                <a href="{% url "core:transactions" %}">
                                     <img src="{% static 'assets1/images/icon/transactions.png' %}" alt="Transactions"> <span>Transactions</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="pay.html">
+                                <a href="{% url "core:search-account" %}">
                                     <img src="{% static 'assets1/images/icon/pay.png' %}" alt="Pay"> <span>Pay</span>
                                 </a>
                             </li>
@@ -211,7 +223,7 @@
                         </ul>
                         <ul class="bottom-item">
                             <li class="active">
-                                <a href="account.html">
+                                <a href="account:account">
                                     <img src="{% static 'assets1/images/icon/account.png' %}" alt="Account"> <span>Account</span>
                                 </a>
                             </li>
@@ -239,9 +251,13 @@
                 </div>
             </div>
         </div>
-        <div>
-                
-        </div>
+        {% if messages %}
+                {% for message in messages  %}
+                    <div class="alert alert-{{message.tags}} timeout-message">
+                        <strong>{{message}}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
     </header>
     <!-- header-section end -->
 
@@ -259,6 +275,15 @@
     <script src="{% static 'assets1/js/plugin/wow.min.js' %}"></script>
     <script src="{% static 'assets1/js/plugin/plugin.js' %}"></script>
     <script src="{% static 'assets1/js/main.js' %}"></script>
+    <script>
+            var warningMessages = document.getElementsByClassName('timeout-message');
+            for (let i = 0; i < warningMessages.length; i++) {
+                setTimeout(function() {
+                warningMessages[i].style.display = 'none';
+                }, 2000);
+            }
+
+    </script>
 </body>
     
 </html>

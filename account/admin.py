@@ -13,6 +13,5 @@ class KYCAdmin(ImportExportModelAdmin):
     list_display = ['user', 'full_name', 'gender', 'identity_type', 'date_of_birth'] 
 
 
-# admin.site.register(Account, AccountAdminModel)
-admin.site.register(Account)
+admin.site.register(Account, AccountAdminModel)
 admin.site.register(KYC, KYCAdmin)
