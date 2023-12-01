@@ -1,0 +1,73 @@
+{% extends "partials/dashboard-base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<section class="dashboard-section body-collapse pay step step-2">
+    <div class="overlay pt-120">
+        <div class="container-fruid">
+            <div class="main-content">
+                <div class="head-area d-flex align-items-center justify-content-between">
+                    <h4>Make a Payment</h4>
+                    <div class="icon-area">
+                        <img src="{% static 'assets1/images/icon/support-icon.png' %}" alt="icon">
+                    </div>
+                </div>
+                <div class="choose-recipient">
+                    <div class="step-area">
+                        <span class="mdr">Step 2 of 3</span>
+                        <h5>Set Amount of transfer</h5>
+                    </div>
+                    <div class="user-select">
+                        <div class="single-user">
+                            <div class="left d-flex align-items-center">
+                                <div class="img-area">
+                                    <img src="{{account.kyc.image.url}}" alt="image" style="width:100px; height: 100px; border-radius:50%; object-fit:cover">
+                                </div>
+                                <div class="text-area">
+                                    <p>{{account.kyc.full_name|title}}</p>
+                                    <span class="mdr"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="82cae7f0efe3ecb1b7c2e5efe3ebeeace1edef">{{account.user.email}}</a></span>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <a href="{% url "core:search-account" %}">
+                                    <i class="icon-h-edit"></i>
+                                    Edit
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form method="POST" action="{% url "core:amount-request-process" account.account_number %}">
+                    {% csrf_token %}
+                    <div class="send-banance">
+                        <span class="mdr">You Send</span>
+                        <div class="input-area">
+                            <input class="xxlr"  placeholder="Your Money Request..." type="number" id="amount-request" name="amount-request">
+                            <select>
+                                <option value="1">USD</option>
+                                <option value="2">USD</option>
+                                <option value="3">USD</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="send-banance pd-0 mt-0">
+                        <span class="mdr">Payment Description</span>
+                        <div class="input-area">
+                            <input class="xxlr" placeholder="Request money for..." type="text" name="description">
+                        </div>
+
+                    </div>
+
+                    <div class="footer-area mt-40">
+                        <a href="{% url "core:request-search-account" %}">Previous Step</a>
+                        <button type="submit" style="padding:10px 30px; border-radius:20px; background-color:#0c266c; color:#fff">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Dashboard Section end -->
+{% endblock content %}
+
