@@ -76,6 +76,9 @@
                                                                 <p class="mdr">$3.0</p>
                                                             </td>
                                                             <td>
+                                                                {% if request.user == s.user and s.status == "processing" %}
+                                                                <a href="{% url "core:transfer-confirmation" s.receiver.account.account_number s.transaction_id %}" class="btn btn-primary"> Proccess</a>
+                                                                {% endif %}
                                                                 <a href="{% url "core:transaction_detail" s.transaction_id %}" class=""><i class="fas fa-eye"></i></a>
                                                             </td>
                                                         </tr>

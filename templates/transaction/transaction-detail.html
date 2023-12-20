@@ -36,6 +36,8 @@
                                                                     <h5 class="inprogress" style="color: #DBAF14">{{transaction.status | title}}</h5>
                                                                     {% elif transaction.status == "request_sent" %}
                                                                     <h5 class="text-success" style="color: #DBAF14">{{transaction.status | title}}</h5>
+                                                                    {% elif transaction.status == "request_settled" %}
+                                                                    <h5 class="text-success" style="color: #DBAF14">{{transaction.status | title}}</h5>
                                                                     {% else %}
                                                                     <h5 class="text-danger">{{transaction.status | title}}</h5>
                                                                     {% endif %}

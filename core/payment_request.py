@@ -67,6 +67,9 @@ def amount_request_confirmation(request, account_number, transaction_id):
     try:
         account = Account.objects.get(account_number=account_number)
         transaction = Transaction.objects.get(transaction_id=transaction_id)
+        if transaction.status == "request_settled" or transaction.status == "request_sent":
+            messages.warning(request, "You cannot make this transaction")
+            return redirect("account:dashboard")
     except:
         messages.warning(request, "Transaction does not exist!")
         return redirect("core:request-search-account")
@@ -118,6 +121,9 @@ def settlement_confirmation(request, account_number, transaction_id):
     try:
         account = Account.objects.get(account_number=account_number)
         transaction = Transaction.objects.get(transaction_id=transaction_id)
+        if transaction.status == "request_settled" or transaction.status == "request_semt":
+            messages.warning(request, "You already settled")
+            return redirect("account:dashboard")
     except:
         messages.warning(request, "An Occured, Try again.")
         return redirect("account:dashboard")
