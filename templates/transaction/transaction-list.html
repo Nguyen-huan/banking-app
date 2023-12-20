@@ -163,22 +163,33 @@
                                                             {% elif s.status == "pending" %}
                                                             <p class="inprogress">{{s.status | title}}</p>
                                                             {% elif s.status == "request_sent" %}
-                                                            <p class="text-success">{{s.status | title}}</p>
+                                                            <p class="inprogress">{{s.status | title}}</p>
                                                             {% elif s.status == "request_settled" %}
                                                             <p class="text-success">{{s.status | title}}</p>
                                                             {% elif s.status == "request_proccessing" %}
-                                                            <p class="text-success">{{s.status | title}}</p>
+                                                            <p class="inprogress">{{s.status | title}}</p>
                                                             {% else %}
                                                             <p class="text-danger">{{s.status | title}}</p>
                                                             {% endif %}
                                                         </td>
                                                         <td>
+                                                            {% if s.status == "request_proccessing"  %}
+                                                            <p class="inprogress">+${{s.amount | intcomma}}</p>
+                                                            {% else %}
                                                             <p class="text-success">+${{s.amount | intcomma}}</p>
+                                                            {% endif %}
                                                             <p class="mdr">$3.0</p>
                                                         </td>
                                                         <td>
+                                                            {% if s.status == "request_proccessing" %}
+                                                            <a href="{% url "core:settlement-confirmation" s.receiver.account.account_number s.transaction_id %}" class="btn btn-warning"><i class="fas fa-eye"></i> Send</a>
+                                                            {% endif %}
                                                             <a href="{% url "core:transaction_detail" s.transaction_id %}" class="btn btn-primary"><i class="fas fa-eye"></i> View</a>
-                                                            <a href="{% url "core:transaction_detail" s.transaction_id %}" class="btn btn-danger"><i class="fas fa-x"></i> Delete</a>
+                                                            {% if s.status == "request_sent" or s.status == "request_proccessing" %}
+                                                            <a href="{% url "core:delete-payment-request" s.transaction_id %}" class="btn btn-danger"><i class="fas fa-x"></i> Delete</a>
+                                                            {% elif s.status == "request_settled" %}
+                                                            <a href="" class="btn btn-success"><i class="fas fa-eye"></i> Settled</a>
+                                                            {% endif %}
                                                         </td>
                                                     </tr>
                                                 {% endfor %}
@@ -199,7 +210,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for s in reciever_transaction %}
+                                                    {% for s in request_reciever_transaction %}
                                                     <tr data-bs-toggle="modal" data-bs-target="#transactionsMod">
                                                         <th scope="row">
                                                             <p>{{s.sender.kyc.full_name | title}}</p>
@@ -217,22 +228,31 @@
                                                             {% elif s.status == "pending" %}
                                                             <p class="inprogress">{{s.status | title}}</p>
                                                             {% elif s.status == "request_sent" %}
-                                                            <p class="text-success">{{s.status | title}}</p>
+                                                            <p class="inprogress">{{s.status | title}}</p>
                                                             {% elif s.status == "request_settled" %}
                                                             <p class="text-success">{{s.status | title}}</p>
                                                             {% elif s.status == "request_proccessing" %}
-                                                            <p class="text-success">{{s.status | title}}</p>
+                                                            <p class="inprogress">{{s.status | title}}</p>
                                                             {% else %}
                                                             <p class="text-danger">{{s.status | title}}</p>
                                                             {% endif %}
                                                         </td>
                                                         <td>
-                                                            <p class="text-success">+${{s.amount | intcomma}}</p>
+                                                            {% if s.status == "request_proccessing" or s.status == "request_sent" %}
+                                                            <p class="inprogress">-${{s.amount | intcomma}}</p>
+                                                            {% else %}
+                                                            <p class="text-danger">-${{s.amount | intcomma}}</p>
+                                                            {% endif %}
                                                             <p class="mdr">$3.0</p>
                                                         </td>
                                                         <td>
-                                                            <a href="{% url "core:transaction_detail" s.transaction_id %}" class="btn btn-primary"><i class="fas fa-check-circle"></i> Settle</a>
-                                                            <a href="{% url "core:transaction_detail" s.transaction_id %}" class="btn btn-danger"><i class="fas fa-x"></i> Cancel</a>
+                                                            {% if s.status == "request_sent" %}
+                                                                <a href="{% url "core:settlement-confirmation" s.sender.account.account_number s.transaction_id %}" class="btn btn-primary"><i class="fas fa-check-circle"></i> Settled</a>
+                                                                <a href="{% url "core:transaction_detail" s.transaction_id %}" class="btn btn-danger"><i class="fas fa-x"></i> Cancel</a>
+                                                            {% endif %}
+                                                            {% if s.status == "request_settled" %}
+                                                                <a href="" class="btn btn-success"><i class="fas fa-check-circle"></i> Settled</a>
+                                                            {% endif %}
                                                         </td>
                                                     </tr>
                                                 {% endfor %}

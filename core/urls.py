@@ -16,12 +16,24 @@ urlpatterns = [
     path('transactions/', transaction.get_transactions_list, name = "transactions"),
     path('transaction_detail/<transaction_id>/', transaction.transaction_detail, name = "transaction_detail"),
 
+    # Payment Request
     path('request-search-account/', payment_request.search_user_request, name = "request-search-account"),
     path('amount-request/<account_number>/', payment_request.amount_request, name = "amount-request"),
     path('amount-request-process/<account_number>/', payment_request.amount_request_process, name = "amount-request-process"),
     path('amount-request-confirmation/<account_number>/<transaction_id>/', payment_request.amount_request_confirmation, name = "amount-request-confirmation"),
     path('amount-request-final-process/<account_number>/<transaction_id>/', payment_request.amount_request_final_process, name = "amount-request-final-process"),
     path('amount-request-completed/<account_number>/<transaction_id>/', payment_request.request_completed, name = "amount-request-completed"),
+    
+
+    # Request Settlement
+    path('settlement-confirmation/<account_number>/<transaction_id>/', payment_request.settlement_confirmation, name = "settlement-confirmation"),
+    path('settlement-processing/<account_number>/<transaction_id>/', payment_request.settlement_processing, name = "settlement-processing"),
+    path('settlement-completed/<account_number>/<transaction_id>/', payment_request.settlement_completed, name = "settlement-completed"),
+    path('delete-payment-request/<transaction_id>/', payment_request.delete_payment_request, name = "delete-payment-request"),
+
+
+
+
 
 
 
